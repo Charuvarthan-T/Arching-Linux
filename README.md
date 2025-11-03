@@ -1,14 +1,14 @@
 <p align="center">
   <img src="https://cdn0.iconfinder.com/data/icons/flat-round-system/512/archlinux-512.png" alt="Arch Linux Logo" width="200"/>
 </p>
-# 🜂 Arching-Linux — Manual Installation Guide
+# Arching-Linux --- Manual Installation Guide
 
 A **clear and concise** step-by-step guide for installing Arch Linux **manually** from the live ISO.
 Each step is self-contained and easy to follow. Commands are provided in blocks — modify disk names (`/dev/nvme0n1p2`, etc.) for your setup.
 
 ---
 
-## ⚙️ Preparations (Before You Start)
+## Preparations:
 
 1.  **Create a Bootable USB**
     Use tools like **Rufus**, **BalenaEtcher**, or `dd` to flash the Arch ISO.
@@ -30,26 +30,28 @@ For a **wired** connection, it should work automatically. Test it:
 ```bash
 ping -c 3 archlinux.org
 For Wi-Fi, use the iwctl utility:
-
+```
 Bash
-
+```
 iwctl
 Once inside iwctl, run these commands to connect:
-
+```
 Bash
-
+```
 station wlan0 scan
 station wlan0 get-networks
 station wlan0 connect <Your_SSID>
 exit
+```
+
 Then, verify your connection:
 
 Bash
-
+```
 ping -c 3 archlinux.org
 2 — Set the System Clock
 Update the system clock using NTP (Network Time Protocol):
-
+```
 Bash
 
 timedatectl set-ntp true
