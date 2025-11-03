@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Arch_Linux_%22Crystal%22_icon.svg" alt="Arch Linux Logo" width="200"/>
+  <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.iconfinder.com%2Ficons%2F386451%2Farch_linux_archlinux_icon&psig=AOvVaw20RqRlth2n3o3q07OXlyJF&ust=1762257271065000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMDwxqas1ZADFQAAAAAdAAAAABAE" alt="Arch Linux Logo" width="200"/>
 </p>
 # 🜂 Arching-Linux — Manual Installation Guide
 
