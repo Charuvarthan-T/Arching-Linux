@@ -1,28 +1,35 @@
-# Arching-Linux
+# 🜂 Arching-Linux — Manual Installation Guide
 
-# 🜂 Arching-Linux — Manual Installation Steps (Clear & Concise)
-
-> This document lists **only the manual, one-by-one steps** to install Arch Linux from the live ISO.  
-> Follow each numbered step in order. Commands to run are shown in code blocks. Read prompts and examples carefully — adapt device names (e.g., `/dev/nvme0n1p2`) to your machine.
+A **clear and concise** step-by-step guide for installing Arch Linux **manually** from the live ISO.  
+Each step is self-contained and easy to follow. Commands are provided in blocks — modify disk names (`/dev/nvme0n1p2`, etc.) for your setup.
 
 ---
 
-## Preparations (Before you start)
-1. Verify you have a working bootable Arch ISO on a USB (use Rufus / BalenaEtcher / `dd`).
-2. Boot your machine in **UEFI** mode (recommended). Disable Secure Boot if necessary.
-3. Optional: Have another device (phone/laptop) with the Arch Wiki open for reference.
+## ⚙️ Preparations (Before You Start)
+
+1. **Create a Bootable USB**  
+   Use tools like **Rufus**, **BalenaEtcher**, or `dd` to flash the Arch ISO.
+
+2. **Boot into UEFI Mode**  
+   Disable *Secure Boot* if necessary.
+
+3. **Have the Arch Wiki Ready**  
+   Keep another device (phone/laptop) open on the [Arch Wiki](https://wiki.archlinux.org/) for reference.
 
 ---
 
 ## 1 — Boot & Network
-1. Boot into the Arch live environment from the USB.
-2. Confirm internet connectivity.
 
+Boot into the Arch live environment from your USB.
+
+### Check Connectivity
+For **wired**, it usually connects automatically:
 ```bash
-# For wired: usually automatic; test:
 ping -c 3 archlinux.org
+For Wi-Fi, use iwctl:
 
-# For Wi-Fi (iwctl):
+bash
+Copy code
 iwctl
 # inside iwctl:
 station wlan0 scan
@@ -30,90 +37,83 @@ station wlan0 get-networks
 station wlan0 connect <Your_SSID>
 exit
 ping -c 3 archlinux.org
-
-## 2 — Set the clock
+2 — Set the System Clock
+bash
+Copy code
 timedatectl set-ntp true
+3 — Partition the Disk (UEFI Example)
+⚠️ Warning: This erases all data on the disk. Verify device names carefully.
 
-## 3 — Partition the disk (UEFI example)
+Open the partition tool:
 
-Warning: This erases data on the target disk. Double-check device names.
-
-Start gdisk, fdisk, or cfdisk to partition (example with cfdisk):
-
+bash
+Copy code
 cfdisk /dev/nvme0n1
-
-
-Create partitions (example layout):
-
-512M — EFI System Partition — type EFI System (FAT32)
-
-Remaining — Root partition — type Linux filesystem (ext4 or btrfs)
-
-Write and quit after partitioning.
+Recommended Layout:
+Size	Type	Filesystem	Mountpoint
+512 MB	EFI System Partition	FAT32	/boot
+Remaining	Linux filesystem	ext4 or btrfs	/
 
 Example device names:
 
-EFI: /dev/nvme0n1p1
+EFI → /dev/nvme0n1p1
 
-ROOT: /dev/nvme0n1p2
+ROOT → /dev/nvme0n1p2
 
-## 4 — Format partitions
+4 — Format Partitions
+bash
+Copy code
 # EFI as FAT32
 mkfs.fat -F32 /dev/nvme0n1p1
 
-# Root as ext4 (example)
+# Root as ext4
 mkfs.ext4 /dev/nvme0n1p2
-
-
-(If you prefer btrfs/LVM/LUKS, format and configure here.)
-
-## 5 — Mount filesystems
+5 — Mount Filesystems
+bash
+Copy code
 mount /dev/nvme0n1p2 /mnt
 mkdir -p /mnt/boot
 mount /dev/nvme0n1p1 /mnt/boot
+If you have /home or others, mount them accordingly.
 
+6 — Select Mirrors (Optional)
+To speed up installation:
 
-If you have additional partitions (home, var, etc.) mount them under /mnt accordingly.
-
-## 6 — Select mirrors (optional but recommended)
-
-Edit /etc/pacman.d/mirrorlist or use reflector from the live environment (if available). Example (manual edit):
-
+bash
+Copy code
 nano /etc/pacman.d/mirrorlist
-# place fastest mirrors near top
-
-## 7 — Install the base system
+# Move fastest mirrors to the top
+7 — Install the Base System
+bash
+Copy code
 pacstrap /mnt base linux linux-firmware vim nano networkmanager
+You may add base-devel if you plan to build packages.
 
-
-You can add base-devel if you plan to build packages.
-
-## 8 — Generate fstab
+8 — Generate fstab
+bash
+Copy code
 genfstab -U /mnt >> /mnt/etc/fstab
-cat /mnt/etc/fstab   # review entries
-
-## 9 — Chroot into the new system
+cat /mnt/etc/fstab
+9 — Enter the New System
+bash
+Copy code
 arch-chroot /mnt
+All further commands are executed inside the chroot.
 
-
-From now on the commands run inside the chroot (they affect the installed system).
-
-## 10 — Timezone & hardware clock
+10 — Timezone & Hardware Clock
+bash
+Copy code
 ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 hwclock --systohc
-
-
-(Change the timezone path if not in Asia/Kolkata.)
-
-## 11 — Locale
-# Enable locales
+11 — Locale Setup
+bash
+Copy code
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
-
-# Set LANG
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
-
-## 12 — Hostname & hosts
+12 — Hostname & Hosts
+bash
+Copy code
 echo "myhostname" > /etc/hostname
 
 cat > /etc/hosts <<EOF
@@ -121,89 +121,81 @@ cat > /etc/hosts <<EOF
 ::1         localhost
 127.0.1.1   myhostname.localdomain myhostname
 EOF
-
-
 Replace myhostname with your chosen hostname.
 
-## 13 — Root password
+13 — Set Root Password
+bash
+Copy code
 passwd
-
-
-Enter a secure password.
-
-## 14 — Create a normal user (recommended)
+14 — Create a User Account
+bash
+Copy code
 useradd -m -G wheel -s /bin/bash youruser
 passwd youruser
+Allow sudo access:
 
-# Allow wheel group to use sudo:
+bash
+Copy code
 pacman -S --noconfirm sudo
 EDITOR=nano visudo
 # uncomment: %wheel ALL=(ALL) ALL
-
-## 15 — Install and configure bootloader (UEFI — GRUB example)
+15 — Install & Configure Bootloader (UEFI — GRUB)
+bash
+Copy code
 pacman -S --noconfirm grub efibootmgr
-
-# Ensure mount point
 mkdir -p /boot/efi
 mount /dev/nvme0n1p1 /boot/efi
-
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Arch
 grub-mkconfig -o /boot/grub/grub.cfg
+🜂 Tip: For pure UEFI setups, systemd-boot is simpler.
 
-
-(Alternative: systemd-boot is simpler for UEFI-only systems.)
-
-## 16 — Enable networking service
+16 — Enable Network Service
+bash
+Copy code
 systemctl enable NetworkManager
+17 — Install Display Stack (Optional)
+Choose Xorg or Wayland.
 
-## 17 — Install X/Wayland and desktop essentials (example)
+Minimal Xorg:
 
-Choose your stack. Minimal Xorg example:
-
+bash
+Copy code
 pacman -S --noconfirm xorg xorg-xinit mesa
+Wayland + Hyprland (example):
 
-
-Example Wayland + Hyprland (optional):
-
+bash
+Copy code
 pacman -S --noconfirm hyprland wayland-protocols wlroots swaybg waybar kitty rofi
-
-
-(Adjust packages to your preference: GNOME, KDE, XFCE, or tiling WMs.)
-
-## 18 — Install common tools
+18 — Install Useful Tools
+bash
+Copy code
 pacman -S --noconfirm network-manager-applet git vim htop neofetch
+19 — Enable Display Manager (if using)
+GDM Example:
 
-## 19 — Enable display manager (if using one)
-
-Example for GDM:
-
+bash
+Copy code
 pacman -S --noconfirm gdm
 systemctl enable gdm
+For SDDM or LightDM, enable their respective services.
 
+20 — (Optional) AUR Helper & Dotfiles
+After reboot and login as your normal user:
 
-For SDDM, LightDM — install and enable corresponding service.
-
-## 20 — (Optional) AUR helper & dotfiles — after first boot
-
-AUR helpers like yay require base-devel and a user account:
-
-pacman -S --noconfirm base-devel
-# as your normal user:
+bash
+Copy code
+sudo pacman -S --noconfirm base-devel
 git clone https://aur.archlinux.org/yay.git /tmp/yay
 cd /tmp/yay
 makepkg -si
+Restore your dotfiles if you have them.
 
-
-Restore dotfiles to your home directory (via git clone or copying).
-
-## 21 — Final steps: update & reboot
-# inside chroot
+21 — Finalize Installation
+bash
+Copy code
 pacman -Syu
-
-# exit chroot, unmount, reboot
 exit
 umount -R /mnt
 reboot
+Remove the USB when prompted to boot into your new Arch system.
 
-
-Remove the USB when appropriate so the system boots from the installed disk.
