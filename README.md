@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://cdn0.iconfinder.com/data/icons/flat-round-system/512/archlinux-512.png" alt="Arch Linux Logo" width="200"/>
 </p>
-# Arching-Linux --- Manual Installation Guide
+# Linux (arch) --- Manual Installation Guide
 
 A **clear and concise** step-by-step guide for installing Arch Linux **manually** from the live ISO.
 Each step is self-contained and easy to follow. Commands are provided in blocks — modify disk names (`/dev/nvme0n1p2`, etc.) for your setup.
