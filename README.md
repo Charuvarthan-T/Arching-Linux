@@ -36,7 +36,7 @@ Wi-Fi (iwctl)
  
 iwctl
 Inside iwctl:
-
+```
 ```bash
  
 station wlan0 scan
