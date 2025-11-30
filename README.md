@@ -103,8 +103,8 @@ Move the fastest mirrors to the top.
 ```bash
  
 pacstrap /mnt base linux linux-firmware vim nano networkmanager
-Optional:
 ```
+Optional:
 ```bash
  
 pacstrap /mnt base-devel
