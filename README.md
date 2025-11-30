@@ -63,16 +63,13 @@ Launch the partitioning tool:
 ```bash
  
 cfdisk /dev/nvme0n1
+```
 Recommended layout:
 
 512 MB — EFI System Partition
-
 Remaining — Linux filesystem
-
 Example:
-
 EFI → /dev/nvme0n1p1
-
 ROOT → /dev/nvme0n1p2
 ```
 4 — Format Partitions
