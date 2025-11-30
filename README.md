@@ -33,18 +33,18 @@ ping -c 3 archlinux.org
 Wi-Fi (iwctl)
 ```
 ```bash
-bash
 Copy code
 iwctl
 Inside iwctl:
 
-bash
+```bash
 Copy code
 station wlan0 scan
 station wlan0 get-networks
 station wlan0 connect <Your_SSID>
 exit
 Verify:
+```
 
 ```bash
 Copy code
@@ -80,9 +80,10 @@ ROOT → /dev/nvme0n1p2
 Copy code
 mkfs.fat -F32 /dev/nvme0n1p1
 mkfs.ext4 /dev/nvme0n1p2
-5 — Mount Filesystems
 ```
-bash
+5 — Mount Filesystems
+
+```bash
 Copy code
 mount /dev/nvme0n1p2 /mnt
 mkdir -p /mnt/boot
@@ -92,48 +93,55 @@ If you have a separate home partition:
 bash
 Copy code
 mount /dev/nvme0n1p3 /mnt/home
+```
 6 — Select Mirrors (Optional)
-bash
+```bash
 Copy code
 nano /etc/pacman.d/mirrorlist
 Move the fastest mirrors to the top.
-
+```
 7 — Install the Base System
-bash
+```bash
 Copy code
 pacstrap /mnt base linux linux-firmware vim nano networkmanager
 Optional:
-
-bash
+```
+```bash
 Copy code
 pacstrap /mnt base-devel
+```
 8 — Generate fstab
-bash
+```bash
 Copy code
 genfstab -U /mnt >> /mnt/etc/fstab
 cat /mnt/etc/fstab
+```
 9 — Enter the New System
-bash
+```bash
 Copy code
 arch-chroot /mnt
 All further commands now run inside the new system.
-
+```
 10 — Timezone & Hardware Clock
-bash
+```bash
 Copy code
 ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 hwclock --systohc
+```
 11 — Locale Setup
-bash
+
+```bash
 Copy code
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
+```
 12 — Hostname & Hosts
-bash
+```bash
 Copy code
 echo "myhostname" > /etc/hostname
-bash
+```
+```bash
 Copy code
 cat > /etc/hosts <<EOF
 127.0.0.1    localhost
@@ -141,75 +149,84 @@ cat > /etc/hosts <<EOF
 127.0.1.1    myhostname.localdomain myhostname
 EOF
 Replace myhostname in both places.
-
+```
 13 — Set Root Password
-bash
+```bash
 Copy code
 passwd
+```
 14 — Create a User Account
-bash
+```bash
 Copy code
 useradd -m -G wheel -s /bin/bash youruser
 passwd youruser
 Install sudo:
-
-bash
+```
+```bash
 Copy code
 pacman -S --noconfirm sudo
 EDITOR=nano visudo
 Uncomment the following line:
-
-sql
+```
+```sql
 Copy code
 %wheel ALL=(ALL) ALL
+```
 15 — Install & Configure Bootloader (GRUB, UEFI)
-bash
+```bash
 Copy code
 pacman -S --noconfirm grub efibootmgr
 mkdir -p /boot/efi
 mount /dev/nvme0n1p1 /boot/efi
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Arch
 grub-mkconfig -o /boot/grub/grub.cfg
+```
 16 — Enable Network Service
-bash
+```bash
 Copy code
 systemctl enable NetworkManager
+```
 17 — Install Display Stack (Optional)
 Minimal Xorg:
 
-bash
+```bash
 Copy code
 pacman -S --noconfirm xorg xorg-xinit mesa
 Wayland + Hyprland:
-
-bash
+```
+```bash
 Copy code
 pacman -S --noconfirm hyprland wayland-protocols wlroots swaybg waybar kitty rofi
+```
 18 — Install Useful Tools
-bash
+```bash
 Copy code
 pacman -S --noconfirm network-manager-applet git vim htop neofetch
+```
 19 — Enable Display Manager (Optional)
 GDM example:
 
-bash
+```bash
 Copy code
 pacman -S --noconfirm gdm
 systemctl enable gdm
+```
 20 — AUR Helper & Dotfiles (Optional, After Reboot)
-bash
+```bash
 Copy code
 sudo pacman -S --noconfirm base-devel git
 git clone https://aur.archlinux.org/yay.git /tmp/yay
 cd /tmp/yay
 makepkg -si
+```
 21 — Finalize Installation
-bash
+```bash
 Copy code
 pacman -Syu
 exit
 umount -R /mnt
 reboot
+```
 References
 Arch Linux Installation Guide: https://wiki.archlinux.org/title/Installation_guide
 
