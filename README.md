@@ -190,12 +190,11 @@ systemctl enable NetworkManager
 Minimal Xorg:
 
 ```bash
-Copy code
+
 pacman -S --noconfirm xorg xorg-xinit mesa
 Wayland + Hyprland:
 ```
 ```bash
-Copy code
 pacman -S --noconfirm hyprland wayland-protocols wlroots swaybg waybar kitty rofi
 ```
 18 — Install Useful Tools
@@ -207,13 +206,12 @@ pacman -S --noconfirm network-manager-applet git vim htop neofetch
 GDM example:
 
 ```bash
-Copy code
 pacman -S --noconfirm gdm
 systemctl enable gdm
 ```
 20 — AUR Helper & Dotfiles (Optional, After Reboot)
 ```bash
-Copy code
+
 sudo pacman -S --noconfirm base-devel git
 git clone https://aur.archlinux.org/yay.git /tmp/yay
 cd /tmp/yay
@@ -221,7 +219,7 @@ makepkg -si
 ```
 21 — Finalize Installation
 ```bash
-Copy code
+
 pacman -Syu
 exit
 umount -R /mnt
@@ -229,16 +227,9 @@ reboot
 ```
 References
 Arch Linux Installation Guide: https://wiki.archlinux.org/title/Installation_guide
-
 Arch Wiki Main Page: https://wiki.archlinux.org/
-
 Partitioning: https://wiki.archlinux.org/title/Partitioning
-
 GRUB: https://wiki.archlinux.org/title/GRUB
-
 Locale: https://wiki.archlinux.org/title/Locale
-
 NetworkManager: https://wiki.archlinux.org/title/NetworkManager
 
-yaml
-Copy code
