@@ -224,9 +224,14 @@ reboot
 ```
 References
 Arch Linux Installation Guide: https://wiki.archlinux.org/title/Installation_guide
+
 Arch Wiki Main Page: https://wiki.archlinux.org/
+
 Partitioning: https://wiki.archlinux.org/title/Partitioning
+
 GRUB: https://wiki.archlinux.org/title/GRUB
+
 Locale: https://wiki.archlinux.org/title/Locale
+
 NetworkManager: https://wiki.archlinux.org/title/NetworkManager
 
