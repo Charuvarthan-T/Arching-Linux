@@ -222,16 +222,10 @@ exit
 umount -R /mnt
 reboot
 ```
-References
-Arch Linux Installation Guide: https://wiki.archlinux.org/title/Installation_guide
 
-Arch Wiki Main Page: https://wiki.archlinux.org/
+## References
 
-Partitioning: https://wiki.archlinux.org/title/Partitioning
-
-GRUB: https://wiki.archlinux.org/title/GRUB
-
-Locale: https://wiki.archlinux.org/title/Locale
-
-NetworkManager: https://wiki.archlinux.org/title/NetworkManager
-
+• https://tar.ninja/posts/2017/03/Arch-Linux-With-SSD-Caching  
+• https://wiki.archlinux.org/index.php/installation_guide  
+• https://www.youtube.com/watch?v=METZCp_JCec  
+• https://unix.stackexchange.com/questions/105389/arch-grub-asking-for-run-lvm-lvmetad-socket-on-a-non-lvm-disk  
