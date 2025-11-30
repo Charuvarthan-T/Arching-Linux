@@ -89,9 +89,8 @@ mount /dev/nvme0n1p2 /mnt
 mkdir -p /mnt/boot
 mount /dev/nvme0n1p1 /mnt/boot
 If you have a separate home partition:
-
-bash
- 
+```
+```bash
 mount /dev/nvme0n1p3 /mnt/home
 ```
 6 — Select Mirrors (Optional)
