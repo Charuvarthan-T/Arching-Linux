@@ -71,10 +71,9 @@ Remaining — Linux filesystem
 Example:
 EFI → /dev/nvme0n1p1
 ROOT → /dev/nvme0n1p2
-```
+
 4 — Format Partitions
 ```bash
- 
 mkfs.fat -F32 /dev/nvme0n1p1
 mkfs.ext4 /dev/nvme0n1p2
 ```
