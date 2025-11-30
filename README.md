@@ -143,8 +143,10 @@ cat > /etc/hosts <<EOF
 ::1          localhost
 127.0.1.1    myhostname.localdomain myhostname
 EOF
-Replace myhostname in both places.
 ```
+Replace myhostname in both places.
+
+
 13 — Set Root Password
 ```bash
  
